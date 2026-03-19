@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Приглашение</title>
+  <style>
+    :root {
+      --bg-1: #0f1020;
+      --bg-2: #1f1147;
+      --card: rgba(255, 255, 255, 0.12);
+      --card-border: rgba(255, 255, 255, 0.2);
+      --text: #f7f7ff;
+      --muted: #c7c3e6;
+      --accent: #ff6ea8;
+      --accent-2: #7a6cff;
+      --error: #ff8fa3;
+      --success: #96fbc4;
+      --shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(1200px 800px at 80% -20%, rgba(122, 108, 255, 0.35), transparent 60%),
+        radial-gradient(1000px 700px at -10% 110%, rgba(255, 110, 168, 0.3), transparent 60%),
+        linear-gradient(135deg, var(--bg-1), var(--bg-2));
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    .glow {
+      position: fixed;
+      width: 320px;
+      height: 320px;
+      border-radius: 999px;
+      filter: blur(40px);
+      opacity: 0.3;
+      z-index: 0;
+      animation: drift 12s ease-in-out infinite alternate;
+    }
+
+    .glow.one {
+      background: var(--accent);
+      top: -80px;
+      right: -80px;
+    }
+
+    .glow.two {
+      background: var(--accent-2);
+      bottom: -90px;
+      left: -70px;
+      animation-delay: 1.5s;
+    }
+
+    @keyframes drift {
+      from { transform: translate(0, 0) scale(1); }
+      to { transform: translate(-30px, 35px) scale(1.1); }
+    }
+
+    .card {
+      position: relative;
+      z-index: 1;
+      width: min(520px, 100%);
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(10px);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      padding: 34px 30px;
+      transition: transform 0.25s ease;
+      text-align: center;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+    }
+
+    .logo {
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 8px 22px rgba(122, 108, 255, 0.4);
+      font-size: 26px;
+    }
+
+    h1 {
+      font-size: clamp(1.55rem, 2.8vw, 2rem);
+      line-height: 1.2;
+      margin-bottom: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1px;
+    }
+
+    p {
+      color: var(--muted);
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+
+    .input-wrap {
+      position: relative;
+      margin-bottom: 14px;
+    }
+
+    input {
+      width: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text);
+      padding: 14px 14px;
+      border-radius: 14px;
+      outline: none;
+      font-size: 1rem;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    input::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    input:focus {
+      border-color: rgba(255, 110, 168, 0.7);
+      box-shadow: 0 0 0 4px rgba(255, 110, 168, 0.18);
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 6px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    button {
+      border: none;
+      border-radius: 14px;
+      padding: 12px 18px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.16s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    }
+
+    .primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: white;
+      box-shadow: 0 8px 22px rgba(122, 108, 255, 0.38);
+      min-width: 160px;
+    }
+
+    .secondary {
+      background: rgba(255, 255, 255, 0.14);
+      color: var(--text);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .hint {
+      min-height: 24px;
+      margin-top: 10px;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    .hint.error { color: var(--error); }
+    .hint.success { color: var(--success); }
+
+    .hidden { display: none; }
+
+    .invite-title {
+      font-size: clamp(1.7rem, 3.2vw, 2.25rem);
+      margin-bottom: 18px;
+    }
+
+    .heart {
+      display: inline-block;
+      animation: heartbeat 1.2s ease-in-out infinite;
+    }
+
+    @keyframes heartbeat {
+      0%, 40%, 80%, 100% { transform: scale(1); }
+      20%, 60% { transform: scale(1.15); }
+    }
+
+    .invite-image {
+      width: 100%;
+      max-width: 380px;
+      border-radius: 18px;
+      display: block;
+      margin: 0 auto 18px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+    }
+
+    .invite-info {
+      max-width: 380px;
+      margin: 0 auto;
+      display: grid;
+      gap: 10px;
+    }
+
+    .info-item {
+      text-align: left;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .label {
+      display: block;
+      font-size: 0.84rem;
+      color: rgba(255, 255, 255, 0.72);
+      margin-bottom: 4px;
+    }
+
+    .value {
+      font-size: 1rem;
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .footer-note {
+      margin-top: 14px;
+      font-size: 0.88rem;
+      color: rgba(255, 255, 255, 0.68);
+    }
+  </style>
+</head>
+<body>
+  <div class="glow one"></div>
+  <div class="glow two"></div>
+
+  <main class="card">
+    <section id="authScreen">
+      <h1>Для доступа требуется пароль</h1>
+
+      <div class="input-wrap">
+        <input
+          id="passwordInput"
+          type="password"
+          autocomplete="off"
+          placeholder="Введите пароль"
+          aria-label="Поле для пароля"
+        />
+      </div>
+
+      <div class="actions">
+        <button id="submitBtn" class="primary" type="button">Открыть приглашение</button>
+        <button id="clearBtn" class="secondary" type="button">Очистить</button>
+      </div>
+
+      <div id="hint" class="hint">Подсказка: пароль заглавными буквами.</div>
+    </section>
+
+    <section id="inviteScreen" class="hidden">
+      <h2 class="invite-title">Приглашение на свидание <span class="heart">❤</span></h2>
+      <img
+        class="invite-image"
+        src="https://img.mustafinmag.kz/S3mB1AYEcAc/el:true/rs:fit:2048/dpr:1.5/f:webp/czM6Ly9tdXN0YWZpbi1tYWdhemluZS9pbWcvNDkyYjBlMmE3NTRmYjI2N2MyNzk3YjhmYWIwYTUwOGUuanBn"
+        alt="Романтичная картинка для приглашения"
+      />
+      <div class="invite-info">
+        <div class="info-item">
+          <span class="label">Дата</span>
+          <span class="value">23 марта 2026, 19:00</span>
+        </div>
+        <div class="info-item">
+          <span class="label">Место</span>
+          <span class="value">Lumiere-Hall</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      const SECRET_PASSWORD = "ПУПУРИК";
+      const authScreen = document.getElementById("authScreen");
+      const inviteScreen = document.getElementById("inviteScreen");
+      const passwordInput = document.getElementById("passwordInput");
+      const submitBtn = document.getElementById("submitBtn");
+      const clearBtn = document.getElementById("clearBtn");
+      const hint = document.getElementById("hint");
+
+      function showMessage(text, type) {
+        hint.textContent = text;
+        hint.className = "hint " + (type || "");
+      }
+
+      function unlock() {
+        const value = passwordInput.value.trim();
+
+        if (!value) {
+          showMessage("Введите пароль, чтобы продолжить.", "error");
+          return;
+        }
+
+        if (value === SECRET_PASSWORD) {
+          showMessage("Пароль верный. Открываю приглашение...", "success");
+          authScreen.classList.add("hidden");
+          inviteScreen.classList.remove("hidden");
+          return;
+        }
+
+        showMessage("Неверный пароль. Попробуй еще раз.", "error");
+      }
+
+      function clearInput() {
+        passwordInput.value = "";
+        showMessage("Подсказка: пароль заглавными буквами.", "");
+        passwordInput.focus();
+      }
+
+      submitBtn.addEventListener("click", unlock);
+      clearBtn.addEventListener("click", clearInput);
+      passwordInput.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") unlock();
+      });
+      window.addEventListener("load", function () {
+        passwordInput.focus();
+      });
+    })();
+  </script>
+</body>
+</html>
